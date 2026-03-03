@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Task Tester</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; line-height: 1.6; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #0070f3; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h2>🚀 API Validation Tester</h2>
+    <label>Your Email:</label>
+    <input type="email" id="email" placeholder="email@example.com">
+    
+    <label>Your Deployed API URL:</label>
+    <input type="text" id="apiUrl" placeholder="https://your-project.vercel.app/api/process">
+    
+    <button onclick="runTest()">Run Validation Test</button>
+
+    <h3>Response:</h3>
+    <pre id="output">Results will appear here...</pre>
+
+    <script>
+        async function runTest() {
+            const email = document.getElementById('email').value;
+            const url = document.getElementById('apiUrl').value;
+            const output = document.getElementById('output');
+
+            if (!email || !url) return alert("Please fill in both fields!");
+
+            output.innerText = "Processing...";
+
+            try {
+                const testUrl = `https://yhxzjyykdsfkdrmdxgho.supabase.co/functions/v1/application-task?url=${encodeURIComponent(url)}&email=${encodeURIComponent(email)}`;
+                const response = await fetch(testUrl);
+                const data = await response.json();
+                output.innerText = JSON.stringify(data, null, 2);
+            } catch (err) {
+                output.innerText = "Error: " + err.message;
+            }
+        }
+    </script>
+</body>
+</html>
